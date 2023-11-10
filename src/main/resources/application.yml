@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/digital_bank
+    username: root
+    password: aros197206
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
