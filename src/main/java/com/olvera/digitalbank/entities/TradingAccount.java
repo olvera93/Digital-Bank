@@ -28,5 +28,7 @@ public class TradingAccount {
     @ManyToOne
     private BankAccount bankAccount;
 
+    private String description;
+
 
 }
