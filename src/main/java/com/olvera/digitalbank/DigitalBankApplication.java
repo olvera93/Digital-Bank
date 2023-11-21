@@ -26,7 +26,7 @@ public class DigitalBankApplication {
 		SpringApplication.run(DigitalBankApplication.class, args);
 	}
 
-	@Bean
+	//@Bean
 	CommandLineRunner commandLineRunner(BankService bankService) {
 		return args -> {
 			bankService.consult();
