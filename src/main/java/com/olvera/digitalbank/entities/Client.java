@@ -23,7 +23,7 @@ public class Client {
     private String email;
 
     @OneToMany(mappedBy = "client")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<BankAccount> bankAccounts;
 
 }

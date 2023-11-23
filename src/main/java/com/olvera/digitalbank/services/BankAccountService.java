@@ -1,5 +1,9 @@
 package com.olvera.digitalbank.services;
 
+import com.olvera.digitalbank.dtos.BankAccountDto;
+import com.olvera.digitalbank.dtos.ClientDto;
+import com.olvera.digitalbank.dtos.CurrentAccountDto;
+import com.olvera.digitalbank.dtos.SavingAccountDto;
 import com.olvera.digitalbank.entities.BankAccount;
 import com.olvera.digitalbank.entities.Client;
 import com.olvera.digitalbank.entities.CurrentAccount;
@@ -12,15 +16,21 @@ import java.util.List;
 
 public interface BankAccountService {
 
-    Client saveClient(Client client);
+    ClientDto saveClient(ClientDto clientDto);
 
-    CurrentAccount saveBankCurrentAccount(double balanceInitial, double overdraft, Long clientId) throws ClientNotFoundException;
+    ClientDto updateClient(ClientDto clientDto);
 
-    SavingAccount saveBankSavingAccount(double balanceInitial, double interestRate, Long clientId) throws ClientNotFoundException;
+    void deleteClient(Long clientId);
 
-    List<Client> getClients();
+    ClientDto getClient(Long clientId) throws ClientNotFoundException;
 
-    BankAccount getBankAccount(String bankAccountId) throws BankAccountNotFoundException;
+    CurrentAccountDto saveBankCurrentAccount(double balanceInitial, double overdraft, Long clientId) throws ClientNotFoundException;
+
+    SavingAccountDto saveBankSavingAccount(double balanceInitial, double interestRate, Long clientId) throws ClientNotFoundException;
+
+    List<ClientDto> getClients();
+
+    BankAccountDto getBankAccount(String bankAccountId) throws BankAccountNotFoundException;
 
     void debit(String bankAccountId, double amount, String description) throws BankAccountNotFoundException, InsufficientBalanceException;
 
@@ -28,6 +38,6 @@ public interface BankAccountService {
 
     void transfer(String accountOwnerId, String accountDestinationId, double amount) throws BankAccountNotFoundException, InsufficientBalanceException;
 
-    List<BankAccount> getBankAccounts();
+    List<BankAccountDto> getBankAccounts();
 
 }
