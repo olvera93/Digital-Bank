@@ -222,7 +222,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         BankAccount bankAccount = bankAccountRepository.findById(bankAccountId)
                 .orElseThrow(() -> new BankAccountNotFoundException("Bank account not found with id: " + bankAccountId));
 
-        Page<TradingAccount> tradingAccounts = tradingAccountRepository.findByBankAccount_BankAccountId(bankAccountId, PageRequest.of(page, size));
+        Page<TradingAccount> tradingAccounts = tradingAccountRepository.findByBankAccount_BankAccountIdOrderByTradingDateDesc(bankAccountId, PageRequest.of(page, size));
         HistoryAccountDto historyAccountDto = new HistoryAccountDto();
         List<TradingAccountDto> tradingAccountDtos = tradingAccounts.getContent()
                 .stream()

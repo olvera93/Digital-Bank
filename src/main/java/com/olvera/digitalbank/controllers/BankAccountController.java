@@ -1,9 +1,8 @@
 package com.olvera.digitalbank.controllers;
 
-import com.olvera.digitalbank.dtos.BankAccountDto;
-import com.olvera.digitalbank.dtos.HistoryAccountDto;
-import com.olvera.digitalbank.dtos.TradingAccountDto;
+import com.olvera.digitalbank.dtos.*;
 import com.olvera.digitalbank.exeptions.BankAccountNotFoundException;
+import com.olvera.digitalbank.exeptions.InsufficientBalanceException;
 import com.olvera.digitalbank.services.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +38,23 @@ public class BankAccountController {
             @RequestParam(name = "size", defaultValue = "5") int size
             ) throws BankAccountNotFoundException {
         return bankAccountService.getHistoryAccount(bankAccountId, page, size);
+    }
+
+    @PostMapping("/accounts/debit")
+    public DebitDto makeDebit(@RequestBody DebitDto debitDto) throws BankAccountNotFoundException, InsufficientBalanceException {
+        bankAccountService.debit(debitDto.getBankAccountId(), debitDto.getAmount(), debitDto.getDescription());
+        return debitDto;
+    }
+
+    @PostMapping("/accounts/credit")
+    public CreditDto makeCredit(@RequestBody CreditDto creditDto) throws BankAccountNotFoundException {
+        bankAccountService.credit(creditDto.getBankAccountId(), creditDto.getAmount(), creditDto.getDescription());
+        return creditDto;
+    }
+
+    @PostMapping("/accounts/transfer")
+    public void makeTransfer(@RequestBody TransferRequestDto transferRequestDto) throws BankAccountNotFoundException, InsufficientBalanceException {
+        bankAccountService.transfer(transferRequestDto.getOwnerAccount(), transferRequestDto.getRecipientAccount(), transferRequestDto.getAmount());
     }
 
 }

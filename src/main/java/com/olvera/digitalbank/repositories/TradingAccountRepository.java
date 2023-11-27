@@ -14,4 +14,7 @@ public interface TradingAccountRepository extends JpaRepository<TradingAccount, 
     List<TradingAccount> findByBankAccount_BankAccountId(String bankAccountId);
 
     Page<TradingAccount> findByBankAccount_BankAccountId(String bankAccountId, Pageable pageable);
+
+    Page<TradingAccount> findByBankAccount_BankAccountIdOrderByTradingDateDesc(String bankAccountId, Pageable pageable);
+
 }
