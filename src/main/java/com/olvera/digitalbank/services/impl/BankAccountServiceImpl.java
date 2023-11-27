@@ -13,6 +13,8 @@ import com.olvera.digitalbank.repositories.TradingAccountRepository;
 import com.olvera.digitalbank.services.BankAccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,6 +66,15 @@ public class BankAccountServiceImpl implements BankAccountService {
         Client client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Client not found with id: " + clientId));
         return bankAccountMapper.clientToDto(client);
+    }
+
+    @Override
+    public List<ClientDto> searchClients(String keyword) {
+        List<Client> clients = clientRepository.searchClients(keyword);
+        List<ClientDto> clientDtos = clients.stream()
+                .map(client -> bankAccountMapper.clientToDto(client))
+                .toList();
+        return clientDtos;
     }
 
     @Override
@@ -204,5 +215,28 @@ public class BankAccountServiceImpl implements BankAccountService {
         return tradingAccounts.stream()
                 .map(tradingAccount -> bankAccountMapper.tradingAccountToDto(tradingAccount))
                 .toList();
+    }
+
+    @Override
+    public HistoryAccountDto getHistoryAccount(String bankAccountId, int page, int size) throws BankAccountNotFoundException {
+        BankAccount bankAccount = bankAccountRepository.findById(bankAccountId)
+                .orElseThrow(() -> new BankAccountNotFoundException("Bank account not found with id: " + bankAccountId));
+
+        Page<TradingAccount> tradingAccounts = tradingAccountRepository.findByBankAccount_BankAccountId(bankAccountId, PageRequest.of(page, size));
+        HistoryAccountDto historyAccountDto = new HistoryAccountDto();
+        List<TradingAccountDto> tradingAccountDtos = tradingAccounts.getContent()
+                .stream()
+                .map(tradingAccount -> bankAccountMapper.tradingAccountToDto(tradingAccount))
+                .toList();
+
+        historyAccountDto.setTradingAccount(tradingAccountDtos);
+        historyAccountDto.setBankAccountId(bankAccount.getBankAccountId());
+        historyAccountDto.setBalance(bankAccount.getBalance());
+        historyAccountDto.setCurrentPage(page);
+        historyAccountDto.setPageSize(size);
+        historyAccountDto.setTotalPages(tradingAccounts.getTotalPages());
+
+        return historyAccountDto;
+
     }
 }

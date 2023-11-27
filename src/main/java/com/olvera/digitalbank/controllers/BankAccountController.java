@@ -1,14 +1,12 @@
 package com.olvera.digitalbank.controllers;
 
 import com.olvera.digitalbank.dtos.BankAccountDto;
+import com.olvera.digitalbank.dtos.HistoryAccountDto;
 import com.olvera.digitalbank.dtos.TradingAccountDto;
 import com.olvera.digitalbank.exeptions.BankAccountNotFoundException;
 import com.olvera.digitalbank.services.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,4 +31,14 @@ public class BankAccountController {
     public List<TradingAccountDto> historyAccounts(@PathVariable(name = "bankAccountId") String bankAccountId) {
         return bankAccountService.historyAccounts(bankAccountId);
     }
+
+    @GetMapping("/accounts/{bankAccountId}/tradingsPage")
+    public HistoryAccountDto historyAccountsPage(
+            @PathVariable(name = "bankAccountId") String bankAccountId,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "5") int size
+            ) throws BankAccountNotFoundException {
+        return bankAccountService.getHistoryAccount(bankAccountId, page, size);
+    }
+
 }

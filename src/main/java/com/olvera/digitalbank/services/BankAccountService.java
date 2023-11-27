@@ -8,6 +8,7 @@ import com.olvera.digitalbank.entities.SavingAccount;
 import com.olvera.digitalbank.exeptions.BankAccountNotFoundException;
 import com.olvera.digitalbank.exeptions.ClientNotFoundException;
 import com.olvera.digitalbank.exeptions.InsufficientBalanceException;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ public interface BankAccountService {
     void deleteClient(Long clientId);
 
     ClientDto getClient(Long clientId) throws ClientNotFoundException;
+
+    List<ClientDto> searchClients(String keyword);
 
     CurrentAccountDto saveBankCurrentAccount(double balanceInitial, double overdraft, Long clientId) throws ClientNotFoundException;
 
@@ -38,5 +41,8 @@ public interface BankAccountService {
     List<BankAccountDto> getBankAccounts();
 
     List<TradingAccountDto> historyAccounts(String bankAccountId);
+
+    HistoryAccountDto getHistoryAccount(String bankAccountId, int page, int size) throws BankAccountNotFoundException;
+
 
 }

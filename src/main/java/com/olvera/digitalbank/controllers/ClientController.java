@@ -39,4 +39,11 @@ public class ClientController {
     public ClientDto getClient(@PathVariable(name = "clientId") Long clientId) throws ClientNotFoundException {
         return bankAccountService.getClient(clientId);
     }
+
+    @GetMapping("/clients/search")
+    public List<ClientDto> searchClients(
+            @RequestParam(name = "keyword", defaultValue = "")String keyword
+    ) {
+        return bankAccountService.searchClients( "%" + keyword + "%");
+    }
 }
