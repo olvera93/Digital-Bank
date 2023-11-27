@@ -1,9 +1,6 @@
 package com.olvera.digitalbank.services;
 
-import com.olvera.digitalbank.dtos.BankAccountDto;
-import com.olvera.digitalbank.dtos.ClientDto;
-import com.olvera.digitalbank.dtos.CurrentAccountDto;
-import com.olvera.digitalbank.dtos.SavingAccountDto;
+import com.olvera.digitalbank.dtos.*;
 import com.olvera.digitalbank.entities.BankAccount;
 import com.olvera.digitalbank.entities.Client;
 import com.olvera.digitalbank.entities.CurrentAccount;
@@ -39,5 +36,7 @@ public interface BankAccountService {
     void transfer(String accountOwnerId, String accountDestinationId, double amount) throws BankAccountNotFoundException, InsufficientBalanceException;
 
     List<BankAccountDto> getBankAccounts();
+
+    List<TradingAccountDto> historyAccounts(String bankAccountId);
 
 }

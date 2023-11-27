@@ -1,6 +1,7 @@
 package com.olvera.digitalbank.controllers;
 
 import com.olvera.digitalbank.dtos.BankAccountDto;
+import com.olvera.digitalbank.dtos.TradingAccountDto;
 import com.olvera.digitalbank.exeptions.BankAccountNotFoundException;
 import com.olvera.digitalbank.services.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,10 @@ public class BankAccountController {
     @GetMapping("/bankAccounts")
     public List<BankAccountDto> getBankAccounts() {
         return bankAccountService.getBankAccounts();
+    }
+
+    @GetMapping("/accounts/{bankAccountId}/tradings")
+    public List<TradingAccountDto> historyAccounts(@PathVariable(name = "bankAccountId") String bankAccountId) {
+        return bankAccountService.historyAccounts(bankAccountId);
     }
 }

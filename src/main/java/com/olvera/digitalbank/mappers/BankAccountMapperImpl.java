@@ -3,9 +3,11 @@ package com.olvera.digitalbank.mappers;
 import com.olvera.digitalbank.dtos.ClientDto;
 import com.olvera.digitalbank.dtos.CurrentAccountDto;
 import com.olvera.digitalbank.dtos.SavingAccountDto;
+import com.olvera.digitalbank.dtos.TradingAccountDto;
 import com.olvera.digitalbank.entities.Client;
 import com.olvera.digitalbank.entities.CurrentAccount;
 import com.olvera.digitalbank.entities.SavingAccount;
+import com.olvera.digitalbank.entities.TradingAccount;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -55,5 +57,11 @@ public class BankAccountMapperImpl {
         currentAccount.setClient(dtoToClient(currentAccountDto.getClientDto()));
 
         return currentAccount;
+    }
+
+    public TradingAccountDto tradingAccountToDto(TradingAccount tradingAccount) {
+        TradingAccountDto tradingAccountDto = new TradingAccountDto();
+        BeanUtils.copyProperties(tradingAccount, tradingAccountDto);
+        return tradingAccountDto;
     }
 }

@@ -1,9 +1,6 @@
 package com.olvera.digitalbank.services.impl;
 
-import com.olvera.digitalbank.dtos.BankAccountDto;
-import com.olvera.digitalbank.dtos.ClientDto;
-import com.olvera.digitalbank.dtos.CurrentAccountDto;
-import com.olvera.digitalbank.dtos.SavingAccountDto;
+import com.olvera.digitalbank.dtos.*;
 import com.olvera.digitalbank.entities.*;
 import com.olvera.digitalbank.enums.OperationType;
 import com.olvera.digitalbank.exeptions.BankAccountNotFoundException;
@@ -199,5 +196,13 @@ public class BankAccountServiceImpl implements BankAccountService {
                 }).toList();
 
         return bankAccountDtos;
+    }
+
+    @Override
+    public List<TradingAccountDto> historyAccounts(String bankAccountId) {
+        List<TradingAccount> tradingAccounts = tradingAccountRepository.findByBankAccount_BankAccountId(bankAccountId);
+        return tradingAccounts.stream()
+                .map(tradingAccount -> bankAccountMapper.tradingAccountToDto(tradingAccount))
+                .toList();
     }
 }
